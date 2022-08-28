@@ -9,7 +9,7 @@ app.use(cors());
 
 const authRouter  = require("./router/auth")
 
-mongoose.connect("mongodb+srv://name:password@cluster0.8ri27fr.mongodb.net/glkGoverDatabase?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://adminName:password@cluster0.8ri27fr.mongodb.net/glkGoverDatabase?retryWrites=true&w=majority")
 
 mongoose.connection.once("open",()=>{
     console.log("Connect to DB!")
