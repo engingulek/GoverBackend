@@ -1,4 +1,4 @@
-const { isRejectedWithValue } = require("@reduxjs/toolkit");
+
 const express = require("express");
 const Auth = require("../model/Auth")
 
@@ -21,10 +21,7 @@ function addAuthDatabase(req,res){
 
     })
     auth.save()
-    res.json({
-        success: 1,
-        message: "success"
-    })
+    res.json("1")
     
 }
 // create auth api
@@ -34,28 +31,47 @@ router.post("/authCreate",(req,res)=>{
         if(auths.length == 0) {
             addAuthDatabase(req,res)
         }else{
-            var singAuths = auths.filter(x => x.email == req.body.email ||  x.phoneNumber == req.body.phoneNumber)
-            if (singAuths.length == 0){
+
+            if (auths.length == 0) {
+                // database null
                 addAuthDatabase(req,res)
+            
             }else{
-                res.json("Aynı email veya eposta adresi bulunmaktadır")
-            }
+               var check = auths.filter(auth => auth.email == req.body.email && auth.phoneNumber == req.body.phoneNumber)
+               if(check.length == 0 ) {
+                addAuthDatabase(req,res)
+               }else{
+                res.json("0")
+               }
+
+                 
+           
+                }
+
+
+
+           
+            
         }
     })
 })
 
 // sing in auth api
 router.post("/singIn",(req,res)=>{
+   
+    
   Auth.find()
-  .then(auth=>{
+  .then(auths=>{
+
     // control email and password
-    var singAuth = auth.filter(x => x.email == req.body.email && x.password == req.body.password)
-    if(singAuth.length == 1){
-        res.json("Sing In Success")
-    }else
-    {
-        res.json("Email or password incorrect")
+    var check = auths.filter(auth => auth.email == req.body.email && auth.password == req.body.password)
+    if (check.length == 1) {
+        res.json("0")
+    }else{
+        res.json("1")
     }
+    
+    
   })
 })
 
